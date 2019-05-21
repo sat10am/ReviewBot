@@ -42,35 +42,35 @@ const fetchPendingPullRequests = async () => {
   });
 
   const query = `
-		query findPendingPullRequest($owner: String! $name: String!) {
-			repository(owner: $owner name: $name) {
-				pullRequests(first:100 states: OPEN) {
-					totalCount
-					edges {
-						node {
-							title
-							url
-							author {
-						    login	
-							}
-							reviewRequests(first:100) {
-								totalCount
-								edges{
-									node {
-									requestedReviewer {
-											__typename
-											... on User {
-												name
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+	  query findPendingPullRequest($owner: String! $name: String!) {
+      repository(owner: $owner name: $name) {
+        pullRequests(first:100 states: OPEN) {
+          totalCount
+          edges {
+            node {
+              title
+              url
+              author {
+                login  
+              }
+              reviewRequests(first:100) {
+                totalCount
+                edges{
+                  node {
+                  requestedReviewer {
+                      __typename
+                      ... on User {
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   `;
 
   const response = await graphQLClient.request<IPendingPullRequestResponse>(
