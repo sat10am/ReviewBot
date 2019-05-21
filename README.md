@@ -2,6 +2,8 @@
 
 Pull Request의 Reviewer로 지정되었는데 처리가 안되어있을시 지정된 시간에 알림을 해주는 봇 입니다.
 
+> Pull Reminder 가 유료여서 개발...
+
 ## 🚨 ENV Configuration
 아래 알맞는 환경변수를 등록해야 정상적으로 동작합니다. 
 
