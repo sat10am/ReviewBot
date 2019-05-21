@@ -15,6 +15,9 @@ interface IPullRequest {
   node: {
     title: string;
     url: string;
+    author: {
+      login: string;
+    }
     reviewRequests: {
       totalCount: number;
       edges: IReviewRequest[];
@@ -47,6 +50,9 @@ const fetchPendingPullRequests = async () => {
 						node {
 							title
 							url
+							author {
+						    login	
+							}
 							reviewRequests(first:100) {
 								totalCount
 								edges{
@@ -70,14 +76,19 @@ const fetchPendingPullRequests = async () => {
   const response = await graphQLClient.request<IPendingPullRequestResponse>(
     query,
     {
-      owner: process.env.REPOSITORY_OWNER,
       name: process.env.REPOSITORY_NAME,
+      owner: process.env.REPOSITORY_OWNER,
     }
   );
 
   return response.repository.pullRequests.edges.filter(
     (pr: IPullRequest) => pr.node.reviewRequests.totalCount > 0
-  )
+  );
 };
 
-export { fetchPendingPullRequests, IReviewRequest, IPullRequest, IPendingPullRequestResponse };
+export {
+  fetchPendingPullRequests,
+  IReviewRequest,
+  IPullRequest,
+  IPendingPullRequestResponse,
+};
