@@ -5,7 +5,7 @@ import {
 } from './lib/githubClient';
 import { IncomingWebhook } from '@slack/webhook';
 import { config } from 'dotenv';
-import { scheduleJob } from "node-schedule";
+import { RecurrenceRule, scheduleJob, Range } from "node-schedule";
 
 config();
 
@@ -50,8 +50,10 @@ const notifyReviewRequest = async () => {
 };
 
 process.env.NOTIFY_TIME.split(',').forEach((h) => {
-  const hour = Number(h);
-  scheduleJob({hour}, async () => {
+	const rule = new RecurrenceRule();
+	rule.hour = Number(h);
+	rule.dayOfWeek = new Range(0,6);
+  scheduleJob(rule, async () => {
     await notifyReviewRequest();
   });
 });
