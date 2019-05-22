@@ -50,9 +50,10 @@ const notifyReviewRequest = async () => {
 };
 
 process.env.NOTIFY_TIME.split(',').forEach((h) => {
-	const rule = new RecurrenceRule();
-	rule.hour = Number(h);
-	rule.dayOfWeek = new Range(0,6);
+  const rule = new RecurrenceRule();
+  rule.hour = Number(h);
+  rule.minute = 0;
+  rule.dayOfWeek = new Range(0,6);
   scheduleJob(rule, async () => {
     await notifyReviewRequest();
   });
