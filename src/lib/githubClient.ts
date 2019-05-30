@@ -81,7 +81,11 @@ const fetchPendingPullRequests = async () => {
     }
   );
 
-  return response.repository.pullRequests.edges.filter(
+  const ignoreKeywords = (process.env.IGNORE_KEYWORDS || '').split(',');
+
+  return response.repository.pullRequests.edges
+    .filter((pr:IPullRequest) => ignoreKeywords.some((keyword: string) => pr.node.title.includes(keyword)))
+    .filter(
     (pr: IPullRequest) => pr.node.reviewRequests.totalCount > 0
   );
 };
